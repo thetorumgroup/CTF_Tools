@@ -1,0 +1,52 @@
+import java.io.FileOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+public class HalfTheBinary {
+
+	public static void main(String[] args) {
+		try{
+		  //read our initial file
+		  byte[] fileContent = Files.readAllBytes(Paths.get("./binary"));
+		  
+		  //data for our output files
+		  byte[] halfContent = new byte[fileContent.length];
+		  byte[] doubleContent = new byte[fileContent.length];
+		  byte[] firstBits = new byte[fileContent.length];
+		  byte[] lastBits = new byte[fileContent.length];
+		  
+		  //get our new data
+		  for (int i= 0; i < fileContent.length; i++){
+			  halfContent[i] = (byte) (fileContent[i]/(byte)0x2);
+			  doubleContent[i] = (byte) (fileContent[i]/(byte)0x2);
+			  firstBits[i] = (byte) (fileContent[i]<<0x4);
+			  lastBits[i] = (byte) (fileContent[i]>>0x4);	  
+		  }
+		  
+		  //write data to half file
+		  FileOutputStream half = new FileOutputStream("./half");
+		  half.write(fileContent);
+		  half.close();
+		  
+		  //write data to double file
+		  FileOutputStream doubleFile = new FileOutputStream("./double");
+		  doubleFile.write(fileContent);
+		  doubleFile.close();
+		  
+		  //write data to file with first bits of each byte
+		  FileOutputStream firstBitsFile = new FileOutputStream("./first");
+		  firstBitsFile.write(fileContent);
+		  firstBitsFile.close();
+		  
+		  //write data to file with last bits of each byte
+		  FileOutputStream lastBitsFile = new FileOutputStream("./last");
+		  lastBitsFile.write(fileContent);
+		  lastBitsFile.close();
+		  
+		}catch(Exception e){
+			//very useful exception handling!
+			System.out.println("You shouldnt be here!");
+		}
+	}
+
+}
